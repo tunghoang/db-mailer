@@ -1,0 +1,41 @@
+title: Mailer microservice
+name: mailer
+version: 1.0
+server_name: localhost:8001
+salt: fitmailer
+connection_string: mysql+pymysql://root:newpass123@127.0.0.1/mailer
+namespaces:
+  - ns_name: mails
+    ns_description: Mail queue
+    resource_name: mail
+    props:
+      - name: idMail
+        type: Integer
+        primary_key: yes
+      - name: application
+        type: String
+        type_specs: (20)
+      - name: receipient
+        type: String
+        type_specs: (512)
+      - name: subject
+        type: String
+        type_specs: (255)
+      - name: content
+        type: Text
+      - name: sent
+        type: Boolean
+      - name: queueTime
+        type: DateTime
+      - name: sentTime
+        type: DateTime
+    list_api: list
+    list_api_description: list
+    new_api: new
+    new_api_description: new
+    delete_api: delete
+    delete_api_description: delete
+    update_api: update
+    update_api_description: update
+    find_api: find
+    find_api_description: find
