@@ -11,7 +11,8 @@ db = DbInstance.getInstance()
 
 app = Flask("mailer")
 app.wsgi_app = ProxyFix(app.wsgi_app)
-app.config['SERVER_NAME'] = "localhost:8001"
+server_name = os.getenv('SERVER_NAME')
+app.config['SERVER_NAME'] = "localhost:8001" if server_name is None else server_name
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SESSION_FILE_DIR'] = '/tmp'
 app.secret_key = os.urandom(16)
@@ -26,7 +27,7 @@ def before_request():
   key = key if key is not None else request.headers.get('auth-key')
   jwt = jwt if jwt is not None else request.headers.get('authorization')
   no_auth_routes = ( '/', '/favicon.ico', '/swagger.json' )
-  no_auth_prefixes = ( '/swaggerui', )
+  no_auth_prefixes = ( '/', '/swaggerui', )
 
   if request.path in no_auth_routes or matchOneOf(request.path, no_auth_prefixes) :
     return None
