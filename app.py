@@ -5,6 +5,7 @@ from apis.app_utils import *
 from flask_session import Session
 from werkzeug.exceptions import *
 from werkzeug.contrib.fixers import ProxyFix
+from flask_cors import CORS
 import os
 
 db = DbInstance.getInstance()
@@ -17,6 +18,8 @@ app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SESSION_FILE_DIR'] = '/tmp'
 app.secret_key = os.urandom(16)
 api.init_app(app)
+
+CORS(app)
 
 Session(app)
 
