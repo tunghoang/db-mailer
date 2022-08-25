@@ -106,6 +106,11 @@ def __doFind(model):
   __db.session().commit()
   return results
 
+def __doBulkDelete(ids):
+  sql = '''DELETE from mail WHERE idMail in :ids'''
+  params = {'ids': tuple(ids)}
+  results = __db.session().execute(sql, params)
+  __db.session().commit()
 
 def listMails():
   doLog("list DAO function")
@@ -137,6 +142,20 @@ def newMail(model):
     __db.session().rollback()
     raise e
 
+def bulkDeleteMails(ids):
+  doLog("bulk delete function. Payload: {}".format(ids))
+  try:
+    return __doBulkDelete(ids)
+  except OperationalError as e:
+    doLog(e)
+    __recover()
+    return __doBulkDelete(ids)
+  except SQLAlchemyError as e:
+    __db.session().rollback()
+    raise e
+  except Exception as e:
+    doLog(e)
+    raise BadRequest(str(e))
 def getMail(id):
   doLog("get DAO function", id)
   try:

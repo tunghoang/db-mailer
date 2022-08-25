@@ -21,6 +21,10 @@ def init_routes(api, model):
     def post(self):
       '''new'''
       return newMail(api.payload)
+    @api.doc('bulk_delete')
+    def delete(self):
+      '''bulk delete'''
+      return bulkDeleteMails(api.payload)
 
   @api.route('/<int:id>')
   class Instance(Resource):

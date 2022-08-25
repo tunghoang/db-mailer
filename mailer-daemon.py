@@ -13,6 +13,7 @@ logger = logging.getLogger('DB_MAILER_DAEMON')
 __db = DbInstance.getInstance()
 while True:
   try:
+    #mails = findMail({'sent': False, 'application': 'srm'})
     mails = findMail({'sent': False})
     if len(mails) > 0:
       server = getserver()

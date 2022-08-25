@@ -6,7 +6,8 @@ from email.header import Header
 port = 587
 sender_email = 'cntt.uet@gmail.com'
 sender_name = 'Văn Phòng Khoa CNTT - ĐHCN - ĐHQGHN'
-password = '2020f1t-u37'
+#password = '2020f1t-u37'
+password = 'kbonwahhqjhilrjl'
 
 def buildEmailMessage(receipient, subject, html, text):
   message = MIMEMultipart('alternative')
@@ -34,7 +35,11 @@ def getserver():
 
 def sendmail1(server, receiver_email, subject, html, text):
   message = buildEmailMessage(receiver_email, subject, html, text)
-  server.sendmail(sender_email, receiver_email, message.as_string());
+  receipients = receiver_email.split(",")
+  if len(receipients) == 1:
+    server.sendmail(sender_email, receiver_email, message.as_string());
+  else:
+    server.sendmail(sender_email, receipients, message.as_string());
 
 def quitserver(server):
   server.quit()
